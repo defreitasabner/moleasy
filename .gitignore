@@ -1,2 +1,4 @@
 .idea/
 env/
+src/sketch.py
+**/__pycache__

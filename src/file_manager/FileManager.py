@@ -1,7 +1,7 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 
-class FileManager(meta=ABCMeta):
+class FileManager(ABC):
 
     @staticmethod
     @abstractmethod
