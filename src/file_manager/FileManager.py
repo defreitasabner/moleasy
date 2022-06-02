@@ -3,11 +3,13 @@ from abc import ABCMeta, abstractmethod
 
 class FileManager(meta=ABCMeta):
 
+    @staticmethod
     @abstractmethod
-    def read_file(self):
+    def read_file():
         ...
 
+    @staticmethod
     @abstractmethod
-    def write_file(self):
+    def write_file():
         ...
 
