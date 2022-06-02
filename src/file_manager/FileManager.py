@@ -5,11 +5,11 @@ class FileManager(meta=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def read_file():
+    def read_file(path: str):
         ...
 
     @staticmethod
     @abstractmethod
-    def write_file():
+    def write_file(path: str):
         ...
 
