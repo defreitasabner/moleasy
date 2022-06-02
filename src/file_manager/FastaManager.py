@@ -10,3 +10,4 @@ class FastaManager(FileManager):
     @staticmethod
     def write_file():
         ...
+
