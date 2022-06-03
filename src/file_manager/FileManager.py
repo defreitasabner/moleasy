@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from typing import List, Dict
 
 class FileManager(ABC):
 
@@ -10,6 +10,6 @@ class FileManager(ABC):
 
     @staticmethod
     @abstractmethod
-    def write_file(path: str):
+    def write_file(path: str, data: List[Dict[str, str]]):
         ...
 

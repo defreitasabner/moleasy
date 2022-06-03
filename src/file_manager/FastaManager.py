@@ -28,7 +28,7 @@ class FastaManager(FileManager):
             raise Exception('The number of taxa is different of the number of sequences')
 
     @staticmethod
-    def write_file(path: str):
+    def write_file(path: str, data: List[Dict[str, str]]):
         with open(path, mode='w', encoding='utf-8'):
             ...
 
