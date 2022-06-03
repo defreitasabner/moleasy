@@ -1,8 +1,8 @@
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 from typing import List, Dict
 
 
-class FileManager(ABC):
+class FileManager(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
