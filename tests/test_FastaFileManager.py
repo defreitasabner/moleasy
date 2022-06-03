@@ -1,9 +1,9 @@
 import pytest
 
-from src.file_manager.FastaManager import FastaManager
+from src.file_manager.FastaFileManager import FastaFileManager
 
 
-class TestFastaManager:
+class TestFastaFileManager:
     @pytest.fixture
     def example_coi_aligned(self):
         path = './example_data/coi_aligned.fas'
@@ -15,5 +15,5 @@ class TestFastaManager:
         return correct_output
 
     def test_read_file_method_with_correct_input(self, example_coi_aligned, correct_output_to_coi_aligned_example):
-        result = FastaManager.read_file(example_coi_aligned)
+        result = FastaFileManager.read_file(example_coi_aligned)
         assert result == correct_output_to_coi_aligned_example

@@ -3,13 +3,13 @@ from typing import List, Dict
 from .FileManager import FileManager
 
 
-class FastaManager(FileManager):
+class FastaFileManager(FileManager):
 
     @staticmethod
-    def read_file(path: str) -> List[Dict[str, str]]:
+    def read_file(input_path: str) -> List[Dict[str, str]]:
         taxa: List[str] = []
         sequences: List[str] = []
-        with open(path, mode='r', encoding='utf-8') as fasta_file:
+        with open(input_path, mode='r', encoding='utf-8') as fasta_file:
             for line in fasta_file:
                 if '>' in line:
                     taxon: str = line
@@ -28,9 +28,9 @@ class FastaManager(FileManager):
             raise Exception('The number of taxa is different of the number of sequences')
 
     @staticmethod
-    def write_file(path: str, data: List[Dict[str, str]]):
-        with open(path, mode='w', encoding='utf-8') as fasta_file:
-            for item in data:
-                taxon, sequence = item
-                output_line = f'>{item[taxon]} {item[sequence]}\n'
+    def write_file(output_path: str, output_data: List[Dict[str, str]]):
+        with open(output_path, mode='w', encoding='utf-8') as fasta_file:
+            for data in output_data:
+                taxon, sequence = data
+                output_line = f'>{data[taxon]} {data[sequence]}\n'
                 fasta_file.write(output_line)
