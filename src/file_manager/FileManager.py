@@ -5,11 +5,11 @@ class FileManager(ABC):
 
     @staticmethod
     @abstractmethod
-    def read_file(path: str):
+    def read_file(input_path: str):
         ...
 
     @staticmethod
     @abstractmethod
-    def write_file(path: str, data: List[Dict[str, str]]):
+    def write_file(output_path: str, output_data: List[Dict[str, str]]):
         ...
 

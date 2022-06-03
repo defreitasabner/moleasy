@@ -29,6 +29,8 @@ class FastaManager(FileManager):
 
     @staticmethod
     def write_file(path: str, data: List[Dict[str, str]]):
-        with open(path, mode='w', encoding='utf-8'):
-            ...
-
+        with open(path, mode='w', encoding='utf-8') as fasta_file:
+            for item in data:
+                taxon, sequence = item
+                output_line = f'>{item[taxon]} {item[sequence]}\n'
+                fasta_file.write(output_line)
