@@ -1,6 +1,6 @@
 import pytest
 
-from ..src.file_manager.fasta_file_manager.FastaFileManager import FastaFileManager
+from ..src.file_manager.fasta.FastaFileManager import FastaFileManager
 
 
 class TestFastaFileManager:
