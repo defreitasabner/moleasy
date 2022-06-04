@@ -1,12 +1,13 @@
 import pytest
 
-from src.file_manager.PhyFileManager import PhyFileManager
+from ..src.file_manager.phy_file_manager.PhyFileManager import PhyFileManager
+
 
 class TestPhyFileManager:
 
     @pytest.fixture
     def example_phy_path(self):
-        path = 'example.phy'
+        path = 'tests/example_data/example.phy'
         return path
 
     @pytest.fixture

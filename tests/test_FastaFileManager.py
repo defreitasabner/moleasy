@@ -1,12 +1,13 @@
 import pytest
 
-from src.file_manager.FastaFileManager import FastaFileManager
+from ..src.file_manager.fasta_file_manager.FastaFileManager import FastaFileManager
 
 
 class TestFastaFileManager:
+
     @pytest.fixture
     def example_coi_aligned(self):
-        path = './example_data/coi_aligned.fas'
+        path = 'tests/example_data/coi_aligned.fas'
         return path
 
     @pytest.fixture
