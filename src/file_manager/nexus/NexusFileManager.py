@@ -21,10 +21,17 @@ class NexusFileManager(FileManager):
         
         with open(input_path, mode='r', encoding='utf-8') as nexus_file:
             
-            for line in nexus_file:
+            for line in iter(nexus_file.readline, ''): # doing this the loop do not call next and not disable tell
                 interleave = NexusFileManager.check_interleave(regex_patterns['interleave'], line)
                 if interleave == 'yes' or interleave == 'no':
                     break
+
+            for line in iter(nexus_file.readline, ''):
+                if re.match(regex_patterns['taxa'], line):
+                    first_taxon = nexus_file.tell() - len(line)
+                    break
+
+            nexus_file.seek(first_taxon)
 
             for line in nexus_file:
                 
@@ -33,12 +40,10 @@ class NexusFileManager(FileManager):
                         line_splitted = line.split()
                         taxon = line_splitted[0]
                         taxa.append(taxon)
-                        if re.search(regex_patterns['morphological_matrix'], line_splitted[1]):
-                            morph = line_splitted[1]
-                            morphology.append(morph)
-                        else:
-                            sequence = line_splitted[1]
-                            sequences.append(sequence)
+                        sequence = line_splitted[1]
+                        sequences.append(sequence)
+                    else:
+                        break
                 
                 elif interleave == 'no':
                     if re.match(regex_patterns['taxa'], line):
@@ -47,7 +52,7 @@ class NexusFileManager(FileManager):
                         sequence = line_splitted[1]
                         data = {'taxon': taxon, 'sequence': sequence}
                         dataset.append(data)
-
+        print(len(taxa), len(sequences))
         return dataset
 
     @staticmethod
