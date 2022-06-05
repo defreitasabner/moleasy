@@ -8,26 +8,47 @@ class NexusFileManager(FileManager):
 
     @staticmethod
     def read_file(input_path: str): # Need to implement yet, some difficults with complex nexus file
+        
         regex_patterns = {
-            'interleaves': '(interleave)=([a-z]*)[;]',
-            'taxa': '[A-Z][a-z]*[_][a-z]*',
+            'interleave': '(interleave)=([a-z]*)[;]',
+            'taxa': '[a-zA-Z0-9]+[_]+[a-zA-Z0-9]+[_a-zA-Z0-9]*',
             'morphological_matrix': '\d'
         }
         taxa = []
         sequences = []
         morphology = []
+        dataset = []
+        
         with open(input_path, mode='r', encoding='utf-8') as nexus_file:
+            
             for line in nexus_file:
-                if re.match(regex_patterns['taxa'], line):
-                    line_splitted = line.split()
-                    taxon = line_splitted[0]
-                    taxa.append(taxon)
-                    if re.search(regex_patterns['morphological_matrix'], line_splitted[1]):
-                        morph = line_splitted[1]
-                        morphology.append(morph)
-                    else:
+                interleave = NexusFileManager.check_interleave(regex_patterns['interleave'], line)
+                if interleave == 'yes' or interleave == 'no':
+                    break
+
+            for line in nexus_file:
+                
+                if interleave == 'yes':
+                    if re.match(regex_patterns['taxa'], line):
+                        line_splitted = line.split()
+                        taxon = line_splitted[0]
+                        taxa.append(taxon)
+                        if re.search(regex_patterns['morphological_matrix'], line_splitted[1]):
+                            morph = line_splitted[1]
+                            morphology.append(morph)
+                        else:
+                            sequence = line_splitted[1]
+                            sequences.append(sequence)
+                
+                elif interleave == 'no':
+                    if re.match(regex_patterns['taxa'], line):
+                        line_splitted = line.split()
+                        taxon = line_splitted[0]
                         sequence = line_splitted[1]
-                        sequences.append(sequence)
+                        data = {'taxon': taxon, 'sequence': sequence}
+                        dataset.append(data)
+
+        return dataset
 
     @staticmethod
     def write_file(output_path: str, output_data: List[Dict[str, str]]):
@@ -63,3 +84,11 @@ class NexusFileManager(FileManager):
                     symbols += symbol
             header_info = (number_taxa, number_characters, symbols, 'N', '-')
             return header_info
+
+    @staticmethod
+    def check_interleave(regex_pattern: str, line: str) -> str:
+        if re.search(regex_pattern, line):
+            interleave = re.search(regex_pattern, line)
+            return interleave.group(2)
+        else:
+            return None
