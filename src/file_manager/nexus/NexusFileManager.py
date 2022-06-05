@@ -1,6 +1,8 @@
 from typing import List, Dict
 import re
 
+from sqlalchemy import false
+
 from ..FileManager import FileManager
 
 
@@ -35,18 +37,22 @@ class NexusFileManager(FileManager):
             
             if interleave == 'yes':
                 interleave_blocks = 1
+                inside_block = False # this value will be altered when \n to False and re.match to True
 
             for line in nexus_file:
                 
                 if interleave == 'yes':
+                    # inside a block of data
                     if re.match(regex_patterns['taxa'], line):
                         line_splitted = line.split()
                         taxon = line_splitted[0]
                         taxa.append(taxon)
                         sequence = line_splitted[1]
                         sequences.append(sequence)
-                    elif re.match(regex_patterns['line_break'], line):
-                        # Because of the double line break, there are a bug, need to improve verify
+                        inside_block = True
+                    # entering in a interleave
+                    elif re.match(regex_patterns['line_break'], line) and inside_block == True:
+                        inside_block = False
                         print('entrou')
                         sequence_number = f'sequence_{interleave_blocks}'
                         if len(dataset) == 0:
@@ -67,6 +73,10 @@ class NexusFileManager(FileManager):
                             taxa.clear()
                             sequences.clear()
                             interleave_blocks += 1
+                    # inside a interleave yet
+                    elif re.match(regex_patterns['line_break'], line) and inside_block == False:
+                        pass
+                    # reaching the and of data block
                     elif re.match(regex_patterns['end_data'], line):
                         break
 
