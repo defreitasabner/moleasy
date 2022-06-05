@@ -12,11 +12,11 @@ class NexusFileManager(FileManager):
         regex_patterns = {
             'interleave': '(interleave)=([a-z]*)[;]',
             'taxa': '[a-zA-Z0-9]+[_]+[a-zA-Z0-9]+[_a-zA-Z0-9]*',
-            'morphological_matrix': '\d'
+            'end_data': '[;]',
+            'line_break': '\n'
         }
         taxa = []
         sequences = []
-        morphology = []
         dataset = []
         
         with open(input_path, mode='r', encoding='utf-8') as nexus_file:
@@ -32,6 +32,9 @@ class NexusFileManager(FileManager):
                     break
 
             nexus_file.seek(first_taxon)
+            
+            if interleave == 'yes':
+                interleave_blocks = 1
 
             for line in nexus_file:
                 
@@ -42,9 +45,31 @@ class NexusFileManager(FileManager):
                         taxa.append(taxon)
                         sequence = line_splitted[1]
                         sequences.append(sequence)
-                    else:
+                    elif re.match(regex_patterns['line_break'], line):
+                        # Because of the double line break, there are a bug, need to improve verify
+                        print('entrou')
+                        sequence_number = f'sequence_{interleave_blocks}'
+                        if len(dataset) == 0:
+                            for i in range(len(taxa)):
+                                data = {'taxon': taxa[i], sequence_number: sequences[i]}
+                                dataset.append(data)
+                            taxa.clear()
+                            sequences.clear()
+                            interleave_blocks += 1
+                        else:
+                            sequence_number = f'sequence_{interleave_blocks}'
+                            for i in range(len(taxa)):
+                                if dataset[i]['taxon'] == taxa[i]:
+                                    new_update = {sequence_number: sequences[i]}
+                                    dataset[i].update(new_update)
+                                else:
+                                    Exception('Fudeu!')
+                            taxa.clear()
+                            sequences.clear()
+                            interleave_blocks += 1
+                    elif re.match(regex_patterns['end_data'], line):
                         break
-                
+
                 elif interleave == 'no':
                     if re.match(regex_patterns['taxa'], line):
                         line_splitted = line.split()
@@ -53,7 +78,7 @@ class NexusFileManager(FileManager):
                         data = {'taxon': taxon, 'sequence': sequence}
                         dataset.append(data)
         print(len(taxa), len(sequences))
-        return dataset
+        return print(len(dataset), dataset[0].keys())
 
     @staticmethod
     def write_file(output_path: str, output_data: List[Dict[str, str]]):
