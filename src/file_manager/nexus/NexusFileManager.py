@@ -1,4 +1,5 @@
 from typing import List, Dict
+import re
 
 from ..FileManager import FileManager
 
@@ -8,15 +9,25 @@ class NexusFileManager(FileManager):
     @staticmethod
     def read_file(input_path: str): # Need to implement yet, some difficults with complex nexus file
         regex_patterns = {
-            'interleaves': '',
+            'interleaves': '(interleave)=([a-z]*)[;]',
             'taxa': '[A-Z][a-z]*[_][a-z]*',
-            'sequences': '[ATCGN]+[-]*' # also catchs isolated words
+            'morphological_matrix': '\d'
         }
         taxa = []
         sequences = []
+        morphology = []
         with open(input_path, mode='r', encoding='utf-8') as nexus_file:
             for line in nexus_file:
-                print(line)
+                if re.match(regex_patterns['taxa'], line):
+                    line_splitted = line.split()
+                    taxon = line_splitted[0]
+                    taxa.append(taxon)
+                    if re.search(regex_patterns['morphological_matrix'], line_splitted[1]):
+                        morph = line_splitted[1]
+                        morphology.append(morph)
+                    else:
+                        sequence = line_splitted[1]
+                        sequences.append(sequence)
 
     @staticmethod
     def write_file(output_path: str, output_data: List[Dict[str, str]]):
