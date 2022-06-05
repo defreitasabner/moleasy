@@ -1,7 +1,5 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 import re
-
-from sqlalchemy import false
 
 from ..FileManager import FileManager
 
@@ -13,6 +11,7 @@ class NexusFileManager(FileManager):
         
         regex_patterns = {
             'interleave': '(interleave)=([a-z]*)[;]',
+            'begin_matrix_block': 'MATRIX',
             'taxa': '[a-zA-Z0-9]+[_]+[a-zA-Z0-9]+[_a-zA-Z0-9]*',
             'end_data': '[;]',
             'line_break': '\n'
@@ -22,23 +21,22 @@ class NexusFileManager(FileManager):
         dataset = []
         
         with open(input_path, mode='r', encoding='utf-8') as nexus_file:
-            
-            for line in iter(nexus_file.readline, ''): # doing this the loop do not call next and not disable tell
+            # checking if the nexus file is interleaved or not
+            for line in nexus_file:
                 interleave = NexusFileManager.check_interleave(regex_patterns['interleave'], line)
                 if interleave == 'yes' or interleave == 'no':
                     break
-
-            for line in iter(nexus_file.readline, ''):
-                if re.match(regex_patterns['taxa'], line):
-                    first_taxon = nexus_file.tell() - len(line)
-                    break
-
-            nexus_file.seek(first_taxon)
-            
+            # setting interleave setup
             if interleave == 'yes':
                 interleave_blocks = 1
                 inside_block = False # this value will be altered when \n to False and re.match to True
+            
+            # find the begin of matrix block
+            for line in nexus_file:
+                if re.match(regex_patterns['begin_matrix_block'], line):
+                    break
 
+            # Inner MATRIX block
             for line in nexus_file:
                 
                 if interleave == 'yes':
@@ -69,7 +67,7 @@ class NexusFileManager(FileManager):
                                     new_update = {sequence_number: sequences[i]}
                                     dataset[i].update(new_update)
                                 else:
-                                    Exception('Fudeu!')
+                                    raise Exception('Fudeu!')
                             taxa.clear()
                             sequences.clear()
                             interleave_blocks += 1
@@ -88,16 +86,16 @@ class NexusFileManager(FileManager):
                         data = {'taxon': taxon, 'sequence': sequence}
                         dataset.append(data)
         print(len(taxa), len(sequences))
-        return print(len(dataset), dataset[0].keys())
+        return dataset
 
     @staticmethod
     def write_file(output_path: str, output_data: List[Dict[str, str]]):
-        number_taxa, number_characters, symbols, missing, gap = NexusFileManager.extract_info_to_header(output_data)
+        number_taxa, number_characters, symbols, missing, gap, interleave = NexusFileManager.extract_info_to_header(output_data)
         with open(output_path, mode='w', encoding='utf-8') as nexus_file:
             first_line = '#NEXUS\n\n'
             begin_data = 'BEGIN DATA;\n'
             data_first_line = f'    DIMENSIONS NTAX={number_taxa} NCHAR={number_characters};\n'
-            data_second_line = f'    FORMAT SYMBOLS="{symbols}" MISSING={missing} GAP={gap} interleave=no;\n\n'
+            data_second_line = f'    FORMAT SYMBOLS="{symbols}" MISSING={missing} GAP={gap} interleave={interleave};\n\n'
             matrix = 'MATRIX\n\n'
             header = [first_line, begin_data, data_first_line, data_second_line, matrix]
             for line in header:
@@ -109,24 +107,37 @@ class NexusFileManager(FileManager):
 
     @staticmethod
     def extract_info_to_header(output_data: List[Dict[str, str]]):
-            number_taxa = len(output_data)
-            number_characters = len(output_data[0]['sequence'])
-            all_sequences = ''
-            for data in output_data:
-                all_sequences += data['sequence']
-            extracted_symbols = list(set(list(all_sequences)))
-            symbols = ''
-            for item in extracted_symbols:
-                if (item != 'N') and (item != '-'):
-                    symbol = f'{item} '
-                    if extracted_symbols.index(item) == len(extracted_symbols) - 1:
-                        symbol = symbol.replace(' ', '')
-                    symbols += symbol
-            header_info = (number_taxa, number_characters, symbols, 'N', '-')
-            return header_info
+            # Checking if the data is simple/concatenated or still separeted
+            if len(output_data[0].keys()) == 2:
+                interleave = 'no'
+                number_taxa = len(output_data)
+                number_characters = len(output_data[0]['sequence'])
+                all_sequences = ''
+                # concatenate all sequences to check all symbols in the matrix
+                for data in output_data:
+                    all_sequences += data['sequence']
+                extracted_symbols = list(set(list(all_sequences)))
+                # extracting symbols, missing, and gap
+                symbols = ''
+                missing = '?'
+                gap = None
+                for item in extracted_symbols:
+                    if (item != 'N') and (item != '-') and (item != '?'):
+                        symbol = f'{item}'
+                        symbols += symbol
+                    elif (item == 'N') or (item == '?'):
+                        missing = item
+                    elif (item == '-'):
+                        gap = '-'
+                header_info = (number_taxa, number_characters, symbols, missing, gap, interleave)
+                return header_info
+            else:
+                interleave = 'yes'
+                if interleave == 'yes':
+                    raise Exception('Possibility to write .nex files interleaved not implemented yet')
 
     @staticmethod
-    def check_interleave(regex_pattern: str, line: str) -> str:
+    def check_interleave(regex_pattern: str, line: str) -> Union[str, None]:
         if re.search(regex_pattern, line):
             interleave = re.search(regex_pattern, line)
             return interleave.group(2)
