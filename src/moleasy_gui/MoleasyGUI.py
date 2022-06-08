@@ -9,7 +9,10 @@ class MoleasyGUI:
             [sg.Output(size=(50, 10), key='output_log')],
             [sg.Text('Input:'), sg.In(size=(33)), sg.FileBrowse()],
             [sg.Text('Output:'), sg.In(size=(32)), sg.FileBrowse()],
-            [sg.Button('Convert files', key='convert_file'), sg.Button('Concat files', key='concat_file')]
+            [sg.Radio('Fasta (.fas)', 'file_converter'),
+             sg.Radio('Phyllip (.phy)', 'file_converter'),
+              sg.Radio('Nexus (.nex)', 'file_converter'),
+               sg.Button('Convert', key='convert_file')]
         ]
         
         # Window
