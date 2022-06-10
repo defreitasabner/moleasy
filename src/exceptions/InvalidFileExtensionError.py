@@ -1,2 +1,2 @@
 class InvalidFileExtensionError(Exception):
-    ...
+    pass
