@@ -2,6 +2,7 @@ from typing import List
 import sys
 
 from src.exceptions.InvalidMethodError import InvalidMethodError
+from src.exceptions.MissingArgsError import MissingArgsError
 
 
 class MoleasyCLI:
@@ -36,4 +37,4 @@ class MoleasyCLI:
             raise InvalidMethodError()
 
         elif len(self.args) < 4:
-            raise Exception
+            raise MissingArgsError()
