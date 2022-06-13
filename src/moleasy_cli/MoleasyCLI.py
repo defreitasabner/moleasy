@@ -3,6 +3,7 @@ import sys
 
 from src.exceptions.InvalidMethodError import InvalidMethodError
 from src.exceptions.MissingArgsError import MissingArgsError
+from src.exceptions.TooMuchArgsError import TooMuchArgsError
 
 
 class MoleasyCLI:
@@ -33,8 +34,12 @@ class MoleasyCLI:
         elif method == 'concat' and len(self.args) >= 4:
             ...
 
-        elif method != 'convert' and method != 'concat':
-            raise InvalidMethodError()
+        elif method == 'convert' and len(self.args) > 5:
+            raise TooMuchArgsError('Expected ')
 
         elif len(self.args) < 4:
-            raise MissingArgsError()
+            raise MissingArgsError('At least 4 arguments are required to the choosen method.')
+
+
+        elif method != 'convert' and method != 'concat':
+            raise InvalidMethodError()
