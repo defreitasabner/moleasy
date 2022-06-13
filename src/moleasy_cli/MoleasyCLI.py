@@ -1,6 +1,8 @@
 from typing import List
 import sys
 
+from src.exceptions.InvalidMethodError import InvalidMethodError
+
 
 class MoleasyCLI:
     def __init__(self, args: List[str]):
@@ -31,7 +33,7 @@ class MoleasyCLI:
             ...
 
         elif method != 'convert' and method != 'concat':
-            raise Exception
+            raise InvalidMethodError()
 
         elif len(self.args) < 4:
             raise Exception
