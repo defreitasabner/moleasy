@@ -1,5 +1,9 @@
-from typing import List
+from typing import List, Tuple
 import sys
+
+from src.exceptions.InvalidMethodError import InvalidMethodError
+from src.exceptions.MissingArgsError import MissingArgsError
+from src.exceptions.TooMuchArgsError import TooMuchArgsError
 
 
 class MoleasyCLI:
@@ -14,24 +18,27 @@ class MoleasyCLI:
     def args(self, new_args: List[str]) -> None:
         self.__args = new_args
     
-    def start(self):
+    def start(self) -> Tuple[str]:
         
-        method = self.args[1] # method: convert or concat
+        if len(self.args) >= 4:
         
-        if method == 'convert' and len(self.args) >= 4:
-            input_path = self.args[2] # path to input file
-            required_output = self.args[3] # fasta, phyllip or nexus
-            output_path = None # optional
-            if len(self.args) == 5:
-                output_path = self.args[4] # optional
+            method = self.args[1] # method: convert or concat
+            
+            if method == 'convert':
+                if len(self.args) > 5:
+                    raise TooMuchArgsError("Method 'convert' expects maximum of 5 args: script path, method, input file path, required output ('fasta', 'phyllip', or 'nexus'), and output file path (optional)")
+                input_path = self.args[2] # path to input file
+                required_output = self.args[3] # fasta, phyllip or nexus
+                output_path = None # optional
+                if len(self.args) == 5:
+                    output_path = self.args[4] # optional
+                return (method, input_path, required_output, output_path)
 
-            return method, input_path, required_output, output_path
+            elif method == 'concat':
+                pass
 
-        elif method == 'concat' and len(self.args) >= 4:
-            ...
-
-        elif method != 'convert' and method != 'concat':
-            raise Exception
-
-        elif len(self.args) < 4:
-            raise Exception
+            else:
+                raise InvalidMethodError(f"Unexpected method '{method}'. Please, try one of those methods: 'convert' or 'concat'.")
+        
+        else:
+            raise MissingArgsError('At least 4 arguments are required: script path, method, input file path, required output (convert) or input file path 2 (concat).')

@@ -1,0 +1,2 @@
+class MissingArgsError(Exception):
+    pass
