@@ -1,16 +1,25 @@
-# This is a sample Python script.
+import sys
+from typing import List, Tuple
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from src.moleasy_cli.MoleasyCLI import MoleasyCLI
+from src.moleasy_gui.MoleasyGUI import MoleasyGUI
+from src.exceptions.InitializeError import InitializeError
+
+def main() -> None:
+
+    args: List[str] = sys.argv
+
+    if len(args) > 2:
+        moleasy = MoleasyCLI(args)
+        # Need to reafactoring PathHandler to just return output path if necessary
+        # MoleasyClI will use FileConverter and FileConcat directly
+
+    elif (len(args) == 2) and ('gui' in args):
+        MoleasyGUI()
+
+    else:
+        raise InitializeError('If you want to use Moleasy via CLI, use more arguments. If you want to use it via GUI (Graphic Interface) use single arg: "gui".')
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
