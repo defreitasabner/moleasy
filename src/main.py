@@ -11,7 +11,7 @@ def main() -> None:
     if len(args) > 2:
         MoleasyCLI(args)
 
-    elif (len(args) > 2) and ('gui' in args):
+    elif (len(args) == 2) and ('gui' in args):
         MoleasyGUI()
 
     else:
