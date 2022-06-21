@@ -1,8 +1,8 @@
 import sys
 from typing import List
 
-from moleasy_cli.MoleasyCLI import MoleasyCLI
-from moleasy_gui.MoleasyGUI import MoleasyGUI
+from src.moleasy_cli.MoleasyCLI import MoleasyCLI
+from src.moleasy_gui.MoleasyGUI import MoleasyGUI
 from src.exceptions.InitializeError import InitializeError
 
 def main() -> None:
