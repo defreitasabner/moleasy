@@ -1,5 +1,5 @@
 import sys
-from typing import List
+from typing import List, Tuple
 
 from src.moleasy_cli.MoleasyCLI import MoleasyCLI
 from src.moleasy_gui.MoleasyGUI import MoleasyGUI
@@ -10,7 +10,9 @@ def main() -> None:
     args: List[str] = sys.argv
 
     if len(args) > 2:
-        MoleasyCLI(args)
+        moleasy = MoleasyCLI(args)
+        # Need to reafactoring PathHandler to just return output path if necessary
+        # MoleasyClI will use FileConverter and FileConcat directly
 
     elif (len(args) == 2) and ('gui' in args):
         MoleasyGUI()
