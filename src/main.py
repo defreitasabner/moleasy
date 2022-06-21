@@ -3,7 +3,7 @@ from typing import List
 
 from moleasy_cli.MoleasyCLI import MoleasyCLI
 
-def main():
+def main() -> None:
 
     args: List[str] = sys.argv
 
