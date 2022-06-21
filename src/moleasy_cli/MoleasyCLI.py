@@ -1,5 +1,4 @@
 from typing import List, Tuple
-import sys
 
 from src.exceptions.InvalidMethodError import InvalidMethodError
 from src.exceptions.MissingArgsError import MissingArgsError
