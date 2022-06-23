@@ -1,9 +1,9 @@
 from typing import List, Dict
-import os.path
 
 from file_manager.fasta.FastaFileManager import FastaFileManager
 from file_manager.phy.PhyFileManager import PhyFileManager
 from file_manager.nexus.NexusFileManager import NexusFileManager
+from exceptions.InvalidFileExtensionError import InvalidFileExtensionError
 
 class FileConverter:
 
@@ -29,7 +29,7 @@ class FileConverter:
                 FileConverter.nex_to_phy(input_path, output_path)
 
         else:
-            raise Exception('Unsupported file extension, try again with fasta, phyllip or nexus file.')
+            raise InvalidFileExtensionError('Unsupported file extension, try again with fasta, phyllip or nexus file.')
 
     @staticmethod
     def fas_to_phy(input_path: str, output_path: str) -> None:
