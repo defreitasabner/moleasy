@@ -8,24 +8,24 @@ from exceptions.InvalidFileExtensionError import InvalidFileExtensionError
 class FileConverter:
 
     @staticmethod
-    def convert(input_path: str, queried_output: str, output_path: str = None):
+    def convert(input_path: str, required_output: str, output_path: str = None):
 
         if input_path.endswith(('.fasta', '.fas')):
-            if queried_output == 'phyllip':
+            if required_output == 'phyllip':
                 FileConverter.fas_to_phy(input_path, output_path)
-            elif queried_output == 'nexus':
+            elif required_output == 'nexus':
                 FileConverter.fas_to_nex(input_path, output_path)
 
         elif input_path.endswith(('.phyllip', '.phy')):
-            if queried_output == 'fasta':
+            if required_output == 'fasta':
                 FileConverter.phy_to_fas(input_path, output_path)
-            elif queried_output == 'nexus':
+            elif required_output == 'nexus':
                 FileConverter.phy_to_nex(input_path, output_path)
 
         elif input_path.endswith(('.nexus','.nex')):
-            if queried_output == 'fasta':
+            if required_output == 'fasta':
                 FileConverter.nex_to_fas(input_path, output_path)
-            elif queried_output == 'phyllip':
+            elif required_output == 'phyllip':
                 FileConverter.nex_to_phy(input_path, output_path)
 
         else:
