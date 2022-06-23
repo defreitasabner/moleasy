@@ -6,7 +6,11 @@ from file_manager.nexus.NexusFileManager import NexusFileManager
 from exceptions.InvalidFileExtensionError import InvalidFileExtensionError
 
 class FileConverter:
-
+    '''
+    File Converter
+    --------------
+    This class manage file conversion using file manager modules (FastaFileManager, PhyFileManager, and NexusFileManager). Each possibility of conversion are static methods. The main static method convert() receive input path, required output, and output path to decide which methods will be used.
+    '''
     @staticmethod
     def convert(input_path: str, required_output: str, output_path: str = None):
 
