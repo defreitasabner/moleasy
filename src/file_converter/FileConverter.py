@@ -9,7 +9,7 @@ class FileConverter:
     '''
     File Converter
     --------------
-    This class manage file conversion using file manager modules (FastaFileManager, PhyFileManager, and NexusFileManager). Each possibility of conversion are static methods. The main static method convert() receive input path, required output, and output path to decide which methods will be used.
+    This class manage file conversion using file manager modules (`FastaFileManager`, `PhyFileManager`, and `NexusFileManager`). Each possibility of conversion are static methods. The main static method `convert()` receive `input_path`, `required_output`, and `output path` to decide which static methods will be called.
     '''
     @staticmethod
     def convert(input_path: str, required_output: str, output_path: str = None):
