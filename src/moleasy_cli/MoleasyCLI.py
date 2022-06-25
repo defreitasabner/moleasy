@@ -32,7 +32,7 @@ class MoleasyCLI:
                 output_path = None # optional
                 if len(self.args) == 5:
                     output_path = self.args[4] # optional
-                elif output_path == None:
+                if output_path == None:
                     path_handler = PathHandler(input_path, required_output)
                     output_path = path_handler.output_path
                 return (method, input_path, required_output, output_path)
