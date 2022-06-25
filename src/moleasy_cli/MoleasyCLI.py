@@ -3,6 +3,7 @@ from typing import List, Tuple
 from src.exceptions.InvalidMethodError import InvalidMethodError
 from src.exceptions.MissingArgsError import MissingArgsError
 from src.exceptions.TooMuchArgsError import TooMuchArgsError
+from src.path_handler.PathHandler import PathHandler
 
 
 class MoleasyCLI:
@@ -31,6 +32,9 @@ class MoleasyCLI:
                 output_path = None # optional
                 if len(self.args) == 5:
                     output_path = self.args[4] # optional
+                elif output_path == None:
+                    path_handler = PathHandler(input_path, required_output)
+                    output_path = path_handler.output_path
                 return (method, input_path, required_output, output_path)
 
             elif method == 'concat':
