@@ -11,8 +11,6 @@ def main() -> None:
 
     if len(args) > 2:
         moleasy = MoleasyCLI(args)
-        # Need to reafactoring PathHandler to just return output path if necessary
-        # MoleasyClI will use FileConverter and FileConcat directly
 
     elif (len(args) == 2) and ('gui' in args):
         MoleasyGUI()
