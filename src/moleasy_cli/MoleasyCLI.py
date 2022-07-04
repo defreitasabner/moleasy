@@ -1,5 +1,6 @@
-from typing import List, Tuple
+from typing import List
 
+from src.file_converter.FileConverter import FileConverter
 from src.exceptions.InvalidMethodError import InvalidMethodError
 from src.exceptions.MissingArgsError import MissingArgsError
 from src.exceptions.TooMuchArgsError import TooMuchArgsError
@@ -18,7 +19,7 @@ class MoleasyCLI:
     def args(self, new_args: List[str]) -> None:
         self.__args = new_args
     
-    def start(self) -> Tuple[str]:
+    def start(self) -> None:
         
         if len(self.args) >= 4:
         
@@ -35,7 +36,7 @@ class MoleasyCLI:
                 if output_path == None:
                     path_handler = PathHandler(input_path, required_output)
                     output_path = path_handler.output_path
-                return (method, input_path, required_output, output_path)
+                FileConverter.convert(input_path, required_output, output_path)
 
             elif method == 'concat':
                 pass
