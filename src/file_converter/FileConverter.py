@@ -1,9 +1,9 @@
 from typing import List, Dict
 
-from file_manager.fasta.FastaFileManager import FastaFileManager
-from file_manager.phy.PhyFileManager import PhyFileManager
-from file_manager.nexus.NexusFileManager import NexusFileManager
-from exceptions.InvalidFileExtensionError import InvalidFileExtensionError
+from ..file_manager.fasta.FastaFileManager import FastaFileManager
+from ..file_manager.phy.PhyFileManager import PhyFileManager
+from ..file_manager.nexus.NexusFileManager import NexusFileManager
+from ..exceptions.InvalidFileExtensionError import InvalidFileExtensionError
 
 class FileConverter:
     '''

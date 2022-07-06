@@ -1,6 +1,7 @@
 import pytest
 
-from src.moleasy_cli.MoleasyCLI import MoleasyCLI
+from ..src.moleasy_cli.MoleasyCLI import MoleasyCLI
+from ..src.exceptions import TooMuchArgsError, InvalidMethodError, MissingArgsError
 
 
 class TestMoleasyCLI:
@@ -15,7 +16,12 @@ class TestMoleasyCLI:
 
     @pytest.fixture
     def sys_args_with_less_than_four_args(self):
-        pass
+        sys_args = [
+            'path_to_script',
+            'convert',
+            './tests/example_data/example.phy'
+        ]
+        return sys_args
 
     def test_MoleasyCLI_TooMuchArgsError(self):
         pass
@@ -23,5 +29,6 @@ class TestMoleasyCLI:
     def test_MoleasyCLI_InvalidMethodError(self):
         pass
 
-    def test_MoleasyCLI_MissingArgsError(self):
-        pass
+    def test_MoleasyCLI_MissingArgsError(self, sys_args_with_less_than_four_args):
+        with pytest.raises(MissingArgsError):
+            MoleasyCLI(sys_args_with_less_than_four_args)
