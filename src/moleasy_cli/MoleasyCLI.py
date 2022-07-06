@@ -1,10 +1,10 @@
 from typing import List
 
-from src.file_converter.FileConverter import FileConverter
-from src.exceptions.InvalidMethodError import InvalidMethodError
-from src.exceptions.MissingArgsError import MissingArgsError
-from src.exceptions.TooMuchArgsError import TooMuchArgsError
-from src.path_handler.PathHandler import PathHandler
+from ..file_converter.FileConverter import FileConverter
+from ..exceptions.InvalidMethodError import InvalidMethodError
+from ..exceptions.MissingArgsError import MissingArgsError
+from ..exceptions.TooMuchArgsError import TooMuchArgsError
+from ..path_handler.PathHandler import PathHandler
 
 
 class MoleasyCLI:

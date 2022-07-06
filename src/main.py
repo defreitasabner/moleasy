@@ -14,7 +14,8 @@ def main() -> None:
         moleasy.start()
 
     elif (len(args) == 2) and ('gui' in args):
-        MoleasyGUI()
+        moleasy = MoleasyGUI()
+        moleasy.start()
 
     else:
         raise InitializeError('If you want to use Moleasy via CLI, use more arguments. If you want to use it via GUI (Graphic Interface) use single arg: "gui".')
