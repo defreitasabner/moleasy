@@ -1,7 +1,9 @@
 import pytest
 
 from ..src.moleasy_cli.MoleasyCLI import MoleasyCLI
-from ..src.exceptions import TooMuchArgsError, InvalidMethodError, MissingArgsError
+from ..src.exceptions.TooMuchArgsError import TooMuchArgsError
+from ..src.exceptions.InvalidMethodError import InvalidMethodError
+from ..src.exceptions.MissingArgsError import MissingArgsError
 
 
 class TestMoleasyCLI:
@@ -31,4 +33,5 @@ class TestMoleasyCLI:
 
     def test_MoleasyCLI_MissingArgsError(self, sys_args_with_less_than_four_args):
         with pytest.raises(MissingArgsError):
-            MoleasyCLI(sys_args_with_less_than_four_args)
+            moleasy = MoleasyCLI(sys_args_with_less_than_four_args)
+            moleasy.start()
