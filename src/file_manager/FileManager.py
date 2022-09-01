@@ -3,6 +3,11 @@ from typing import List, Dict
 
 
 class FileManager(metaclass=ABCMeta):
+    '''
+    File Manager
+    ===
+    Abstract class to represent all file managers. There is one file manager to each main file format: `fasta`, `phyllip`, and `nexus`.
+    '''
 
     @staticmethod
     @abstractmethod
