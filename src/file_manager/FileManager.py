@@ -11,11 +11,11 @@ class FileManager(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def read_file(input_path: str):
+    def read_file(input_path: str) -> List[Dict[str, str]]:
         ...
 
     @staticmethod
     @abstractmethod
-    def write_file(output_path: str, output_data: List[Dict[str, str]]):
+    def write_file(output_path: str, output_data: List[Dict[str, str]]) -> None:
         ...
 
