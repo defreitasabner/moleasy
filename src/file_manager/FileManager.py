@@ -15,7 +15,7 @@ class FileManager(metaclass=ABCMeta):
         """
         read_file()
         ---
-        Open and read the specified file extension, based on file manager type, and return all data readed in a list of dictionaries.
+        Open a specific file, with extension based on file manager type, and read all data within it. Store all readed data in a list of dictionaries and return it.
         """
         ...
 
