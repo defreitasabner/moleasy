@@ -4,6 +4,11 @@ from ..FileManager import FileManager
 
 
 class FastaFileManager(FileManager):
+    """
+    FastaFileManager
+    ---
+    Module responsable to read and write `Fasta` files. The accepted files extensions are: `.fasta` and `.fas`.
+    """
 
     @staticmethod
     def read_file(input_path: str) -> List[Dict[str, str]]:
