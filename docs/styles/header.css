@@ -1,0 +1,16 @@
+.header__container {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.2rem;
+    background-color: var(--raisin-black);
+}
+
+.header__title {
+    font-size: 2rem;
+    color: var(--burnt-sienna);
+}
+
+.header__slogan {
+    font-size: 1.2rem;
+    color: var(--dutch-white)
+}

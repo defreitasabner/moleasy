@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+        
+        <title>MolEasy</title>
+
+        <link rel="stylesheet" href="styles/reset.css">
+        <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="styles/header.css">
+        <link rel="stylesheet" href="styles/main.css">
+
+    </head>
+    <body>
+        <header class="header__container">
+            <h1 class="header__title">MolEasy</h1>
+            <p class="header__slogan">A simple way to convert and concatenate DNA sequence files</p>
+        </header>
+        <main class="main__container">
+            <section class="section__container">
+                <h2 class="section__title">Convert</h2>
+                <p class="section__text">Convert a DNA file format to other (FASTA, Phyllip and Nexus)</p>
+                <input id="convert-input" class="section__input"type="file">
+                <label for="convert-input" class="section__upload">Upload File</label>
+                <div class="section__options">
+                    <div class="section__option">
+                        <input id="fasta" type="radio" name="covert-options">
+                        <label for="fasta" class="section__text">fasta</label>
+                    </div>
+                    <div class="section__option">
+                        <input id="phyllip" type="radio" name="covert-options">
+                        <label for="phyllip" class="section__text">phyllip</label>
+                    </div>
+                    <div class="section__option">
+                        <input id="nexus" type="radio" name="covert-options">
+                        <label for="nexus" class="section__text">nexus</label>
+                    </div>
+                </div>
+                <button class="section__button">Convert file!</button>
+            </section>
+        </main>
+        <footer>
+
+        </footer>
+    </body>
+    <py-script src="main.py"></py-script>
+</html>
