@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from ..FileManager import FileManager
+from .FileManager import FileManager
 
 
 class FastaFileManager(FileManager):
@@ -24,7 +24,7 @@ class FastaFileManager(FileManager):
                     sequence: str = line.strip()
                     sequences.append(sequence)
         if len(taxa) == len(sequences):
-            dataset: List[Dict[str:str]] = []
+            dataset: List[Dict[str, str]] = []
             for i in range(len(taxa)):
                 data = {'taxon': taxa[i], 'sequence': sequences[i]}
                 dataset.append(data)

@@ -1,6 +1,6 @@
 import pytest
 
-from ..src.file_manager.phy.PhyFileManager import PhyFileManager
+from ..src.file_managers.PhyFileManager import PhyFileManager
 
 
 class TestPhyFileManager:

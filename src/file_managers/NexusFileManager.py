@@ -1,7 +1,7 @@
 from typing import List, Dict, Union
 import re
 
-from ..FileManager import FileManager
+from .FileManager import FileManager
 
 
 class NexusFileManager(FileManager):
