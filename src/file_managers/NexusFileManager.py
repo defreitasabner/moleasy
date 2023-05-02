@@ -6,8 +6,7 @@ from .FileManager import FileManager
 
 class NexusFileManager(FileManager):
 
-    @staticmethod
-    def read_file(input_path: str): # Need to implement yet, some difficults with complex nexus file
+    def read_file(self, input_path: str): # Need to implement yet, some difficults with complex nexus file
         
         regex_patterns = {
             'interleave': '(interleave)=([a-z]*)[;]',
@@ -23,7 +22,7 @@ class NexusFileManager(FileManager):
         with open(input_path, mode='r', encoding='utf-8') as nexus_file:
             # checking if the nexus file is interleaved or not
             for line in nexus_file:
-                interleave = NexusFileManager.check_interleave(regex_patterns['interleave'], line)
+                interleave = self.check_interleave(regex_patterns['interleave'], line)
                 if interleave == 'yes' or interleave == 'no':
                     break
             # setting interleave setup
@@ -88,9 +87,8 @@ class NexusFileManager(FileManager):
         print(len(taxa), len(sequences))
         return dataset
 
-    @staticmethod
-    def write_file(output_path: str, output_data: List[Dict[str, str]]):
-        number_taxa, number_characters, symbols, missing, gap, interleave = NexusFileManager.extract_info_to_header(output_data)
+    def write_file(self, output_path: str, output_data: List[Dict[str, str]]):
+        number_taxa, number_characters, symbols, missing, gap, interleave = self.extract_info_to_header(output_data)
         with open(output_path, mode='w', encoding='utf-8') as nexus_file:
             first_line = '#NEXUS\n\n'
             begin_data = 'BEGIN DATA;\n'
@@ -105,8 +103,7 @@ class NexusFileManager(FileManager):
                 nexus_file.write(line_string)
             nexus_file.write('\n;\nEND;\n')
 
-    @staticmethod
-    def extract_info_to_header(output_data: List[Dict[str, str]]):
+    def extract_info_to_header(self, output_data: List[Dict[str, str]]):
             # Checking if the data is simple/concatenated or still separeted
             if len(output_data[0].keys()) == 2:
                 interleave = 'no'
@@ -136,8 +133,7 @@ class NexusFileManager(FileManager):
                 if interleave == 'yes':
                     raise Exception('Possibility to write .nex files interleaved not implemented yet')
 
-    @staticmethod
-    def check_interleave(regex_pattern: str, line: str) -> Union[str, None]:
+    def check_interleave(self, regex_pattern: str, line: str) -> Union[str, None]:
         if re.search(regex_pattern, line):
             interleave = re.search(regex_pattern, line)
             return interleave.group(2)

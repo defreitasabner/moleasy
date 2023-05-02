@@ -5,8 +5,7 @@ from .FileManager import FileManager
 
 class PhyFileManager(FileManager):
 
-    @staticmethod
-    def read_file(input_path: str) -> List[Dict[str, str]]:
+    def read_file(self, input_path: str) -> None:
         taxa: List[str] = []
         sequences: List[str] = []
         with open(input_path, mode='r', encoding='utf-8') as phy_file:
@@ -21,12 +20,11 @@ class PhyFileManager(FileManager):
                     data = {'taxon': taxa[i], 'sequence': sequences[i]}
                     dataset.append(data)
                 dataset.pop(0)
-                return dataset
+                self.data = dataset
             else:
                 Exception('The number of taxa is different of the number of sequences')
 
-    @staticmethod
-    def write_file(output_path: str, output_data: List[Dict[str, str]]) -> None:
+    def write_file(self, output_path: str, output_data: List[Dict[str, str]]) -> None:
         with open(output_path, mode='w', encoding='utf-8') as phy_file:
             taxa_quantity = len(output_data)
             sequence_length = len(output_data[0]['sequence'])
